@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<htmldirective data-first="Konstantinos" data-last="Zarifis"></htmldirective>
+
+<br/>
+<htmldirective data-first="Costas" data-last="Zarifis"></htmldirective>
+<br/>
+<h2 htmldirective="" data-first="Kian Win" data-last="Ong"></h2>
+<p>
+<i htmldirective="" data-first="Something" data-last="Else"></i>
+<br/>
+<p>
+
+    The following comes from the page state (?) inside the controller:
+    <br/>
+    <div ng-controller="myController">
+
+        <htmldirective >sads</htmldirective>
+    </div>
+</p>
+</p>
+
+<script data-require="angular.js@1.2.x" src="http://code.angularjs.org/1.2.7/angular.js" data-semver="1.2.7"></script>
+<script src="js/htmlDirective.js"></script>
+<script>
+    var APP = angular.module('myApp',['htmldir']);
+</script>
+</body>
+</html>
