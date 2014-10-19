@@ -3,7 +3,7 @@
  */
 var mapApp = angular.module('myMapDirectiveApp', []);
 
-mapApp.directive('mymap', function () {
+mapApp.directive('czMap', function () {
     return{
 
         restrict:'AE',
@@ -73,7 +73,7 @@ mapApp.directive('mymap', function () {
 
 
 
-mapApp.directive('mymarker', function () {
+mapApp.directive('czMarker', function () {
     return{
         restrict:'AE',
         priority: 100, //<-- PRIORITY
@@ -82,49 +82,96 @@ mapApp.directive('mymarker', function () {
             longitude : '='
 
         },
-
-
         // compile and template function differences:
         // http://stackoverflow.com/questions/20941568/what-are-the-benefits-of-a-directive-template-function-in-angularjs
 
         compile: function ( elem, attrs)
         {
 
-            return function(scope, iterElement, attr) {
-                console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
+            return {
+                post: function post(scope, iterElement, attr)
+                {
+                    console.log('printing insidemarker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
 
-                console.log('scope:', scope.latitude);
+                    var mapOptions,
+                        latitude = scope.latitude,
+                        longitude = scope.longitude;
 
+                    console.log('map:', map);
 
-                iterElement.append('<div class="google-map-marker"></div>');
+                    latitude = parseFloat(latitude);
+                    longitude = parseFloat(longitude);
 
+                    console.log('Marker', 'lat:', latitude, 'long:', longitude);
 
-                console.log('update marker elem[0]:', iterElement[0]);
-
-                var mapOptions,
-                    latitude = scope.latitude,
-                    longitude = scope.longitude;
-
-                console.log('map:', map);
-                //                map;
-
-
-                latitude = parseFloat(latitude); //|| 43.074688;
-                longitude = parseFloat(longitude); //|| -89.384294;
-
-                console.log('Marker', 'lat:', latitude, 'long:', longitude);
-
-
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(latitude, longitude),
-                    map: map,
-                    title: 'Hello World!'
-                });
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(latitude, longitude),
+                        map: map,
+                        title: 'Hello World!'
+                    });
+                }
             }
-
-
         }
+    }});
 
 
+mapApp.directive('czMarkers', function () {
+    return{
+        restrict:'AE',
+//        priority: 1, //<-- PRIORITY
+        terminal :true, // this module will have the lowest priority. (It will be executed last)
+        scope:{
+            markers : '=markers'
+        },
+        // compile and template function differences:
+        // http://stackoverflow.com/questions/20941568/what-are-the-benefits-of-a-directive-template-function-in-angularjs
+
+        compile: function ( elem, attrs) {
+            return{
+
+                post: function some(scope, iterElement, attr) {
+                    console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
+
+                    console.log('scope.markers:', scope.markers);
+
+                    scope.$watch('markers',function( newValue, oldValue ) { //will execute after random markers are created
+                        console.log('BOOM');
+                        console.log('oldValue:',oldValue,'newValue',newValue);
+                        console.log('newValue.markers',newValue.markers);
+                        console.log('newValue.markers.length',newValue.markers.length);
+
+                        for (i =0 ; i<newValue.markers.length;i++){
+                            console.log('newValue.markers['+i+']',newValue.markers[i]);
+                        }
+
+                        var mapOptions,
+                            latitude = scope.latitude,
+                            longitude = scope.longitude;
+
+                        console.log('map:', map);
+
+                        latitude = parseFloat(latitude);
+                        longitude = parseFloat(longitude);
+
+                        console.log('Marker', 'lat:', latitude, 'long:', longitude);
+
+                        var marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(latitude, longitude),
+                            map: map,
+                            title: 'Hello World!'
+                        });
+                    });
+
+                    scope.$watch('markers.length',function( newValue, oldValue ) {
+
+                        console.log('BOOM BOOM');
+                        console.log('oldValue:',oldValue,'newValue',newValue);
+                        console.log('newValue',newValue);
+                    });
+
+
+                }
+            }
+        }
     }});
 
