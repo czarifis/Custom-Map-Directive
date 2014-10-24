@@ -14,7 +14,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         console.log('add random marker');
 
         console.log($scope.randomMarkers[$scope.randomMarkers.length-1].idKey);
-        var rmark = createRandomMarker($scope.randomMarkers.length);
+        var rmark = createRandomMarker(new Date().getUTCMilliseconds());
         $scope.randomMarkers.push(rmark);
 
     };
@@ -35,17 +35,63 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
 
     $scope.changeLat = function(){
-        var item = $scope.randomMarkers[$scope.model.keyID];
+        var item = {};
+        for(var i=0;i<$scope.randomMarkers.length;i++){
+            if($scope.randomMarkers[i].idKey==$scope.model.keyID){
+                item = $scope.randomMarkers[i];
+            }
+        }
         item.coords.latitude = $scope.model.currLat;
-        console.log('item:',item);
+
     };
 
     $scope.changeLong = function(id){
-        var item = $scope.randomMarkers[id];
+        var item = {};
+        for(var i=0;i<$scope.randomMarkers.length;i++){
+            if($scope.randomMarkers[i].idKey==$scope.model.keyID){
+                item = $scope.randomMarkers[i];
+            }
+        }
         item.coords.longitude = $scope.model.currLong;
         console.log('item:',item);
     };
 
+
+    $scope.pushshowhide = function(key) {
+
+        console.log('Push show/hide Change');
+//        var variab = $scope.randomMarkers[key];
+        var variab = {};
+        for(var i=0;i<$scope.randomMarkers.length;i++){
+            if($scope.randomMarkers[i].idKey==$scope.model.keyID){
+                console.log('waat');
+                variab = $scope.randomMarkers[i];
+            }
+        }
+
+        console.log('was variab.checked:',variab.checked);
+        console.log(variab);
+
+        //variab.checked = $scope.isChecked;
+        if (variab.checked==true){
+//                dummyVar = false;
+//                $scope.model.hasChecked = false;
+            variab.checked = false;
+        }
+        else{
+//                dummyVar = true;
+//                $scope.model.hasChecked = true;
+
+            variab.checked = true;
+        }
+//            console.log('is isChecked:',dummyVar);
+        console.log('variab now is:',variab);
+        $scope.randomMarkers[$scope.model.keyID] = variab;
+        //$scope.keyID = varID;
+
+        console.log('scope.keyID now is:',$scope.model.keyID);
+
+    };
 
 
     var createRandomMarker = function (i, idKey) {
@@ -55,6 +101,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 //                lng_min = bounds.southwest.longitude,
 //                lng_range = bounds.northeast.longitude - lng_min;
 
+//        console.log('i:',i);
         var lat_min = -90,
             lat_range = 90 - lat_min,
             lng_min = -180,
@@ -92,7 +139,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
         };
         ret[idKey] = i;
-
+//        console.log('ret:',ret);
 
         return ret;
     };

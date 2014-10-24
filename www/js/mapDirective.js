@@ -92,7 +92,7 @@ mapApp.directive('czMarker', function () {
     }});
 
 
-mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
+mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
     var allMarkers = [];
     var allMarkersModel = [];
 
@@ -100,6 +100,17 @@ mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
     Array.prototype.diff = function(a) {
         return this.filter(function(i) {return a.indexOf(i) < 0;});
     };
+
+
+    function diffArray(a, b) {
+        var seen = [], diff = [];
+        for ( var i = 0; i < b.length; i++)
+            seen[b[i]] = true;
+        for ( var i = 0; i < a.length; i++)
+            if (!seen[a[i]])
+                diff.push(a[i]);
+        return diff;
+    }
     return{
         restrict:'AE',
 //        priority: 1, //<-- PRIORITY
@@ -191,7 +202,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
 
             scope.$watch('markerz',function( newValue, oldValue ) { //will execute after random markers are created
 
-                console.log('watchCollection');
+                console.log('deep watch');
                 console.log('map:', map);
 
                 if(allMarkers==0) {
@@ -215,19 +226,19 @@ mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
                     }
                 }
                 else{
-                    // We need to figure out if the user added or removed a marker
+                    // We need to figure out if the user added, removed or updated a marker
                     if(newValue.length>oldValue.length){
                         console.log('The user added a marker:');
-                        var addedMarker = newValue.diff(oldValue)[0]
+                        var addedMarker = newValue[newValue.length-1];
                         console.log(addedMarker);
-                        var mapOptions,
-                            latitude = addedMarker.coords.latitude,
-                            longitude = addedMarker.coords.longitude;
-                        latitude = parseFloat(latitude);
-                        longitude = parseFloat(longitude);
+
+                        var lats = addedMarker.coords.latitude,
+                            longs = addedMarker.coords.longitude;
+                        lats = parseFloat(lats);
+                        longs = parseFloat(longs);
                         console.log('adding new marker')
                         var upmarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(latitude, longitude),
+                            position: new google.maps.LatLng(lats, longs),
                             map: map,
                             title: 'Hello World!'
                         });
@@ -236,7 +247,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
 
 
 
-                    }else{
+                    }else if(newValue.length<oldValue.length){
                         console.log('The user removed a marker');
                         var delMarkerModel = oldValue.diff(newValue)[0];
                         console.log('allMarkers',allMarkers);
@@ -253,6 +264,37 @@ mapApp.directive('czLinkmarkers', ['MyMarkers', function (MyMarkers) {
 
                             }
                         }
+                    }
+                    else if(newValue.length==oldValue.length) {
+
+                        console.log('The user updated a marker');
+                        var updatedMarker = oldValue.diff(newValue)[0];
+                        console.log(updatedMarker);
+
+                        console.log(diffArray(newValue,oldValue));
+
+                        for(var avar = 0; avar<newValue.length;avar++){
+                            if(!angular.equals(newValue[avar].coords, oldValue[avar].coords)){
+                                console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
+                                console.log('allMarkers[avar]',allMarkers[avar]);
+
+                                var lats = newValue[avar].coords.latitude,
+                                    longs = newValue[avar].coords.longitude;
+                                lats = parseFloat(lats);
+                                longs = parseFloat(longs);
+                                var position = new google.maps.LatLng(lats, longs)
+
+
+                                allMarkers[avar].setPosition(position);
+                            }
+                            if(!angular.equals(newValue[avar].checked, oldValue[avar].checked)){
+                                console.log('went from:',newValue[avar].checked,'to:',oldValue[avar].checked);
+                                allMarkers[avar].setVisible(newValue[avar].checked);
+
+                            }
+                        }
+
+
                     }
 
                 }
