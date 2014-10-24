@@ -64,7 +64,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         var variab = {};
         for(var i=0;i<$scope.randomMarkers.length;i++){
             if($scope.randomMarkers[i].idKey==$scope.model.keyID){
-                console.log('waat');
+                console.log('waat'); 
                 variab = $scope.randomMarkers[i];
             }
         }
