@@ -228,6 +228,8 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                 else{
                     // We need to figure out if the user added, removed or updated a marker
                     if(newValue.length>oldValue.length){
+
+                        console.log(newValue,oldValue);
                         console.log('The user added a marker:');
                         var addedMarker = newValue[newValue.length-1];
                         console.log(addedMarker);

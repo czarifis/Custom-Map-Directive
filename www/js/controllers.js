@@ -63,9 +63,11 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 //        var variab = $scope.randomMarkers[key];
         var variab = {};
         for(var i=0;i<$scope.randomMarkers.length;i++){
+//            console.log($scope.randomMarkers[i]);
             if($scope.randomMarkers[i].idKey==$scope.model.keyID){
-                console.log('waat'); 
+                console.log('waat');
                 variab = $scope.randomMarkers[i];
+                console.log(variab);
             }
         }
 
@@ -86,7 +88,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         }
 //            console.log('is isChecked:',dummyVar);
         console.log('variab now is:',variab);
-        $scope.randomMarkers[$scope.model.keyID] = variab;
+//        $scope.randomMarkers[$scope.model.keyID] = variab;
         //$scope.keyID = varID;
 
         console.log('scope.keyID now is:',$scope.model.keyID);
