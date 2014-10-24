@@ -30,6 +30,10 @@
     <!-- This script introduces the custom directives -->
     <script src="js/mapDirective.js"></script>
 
+    <!-- This script introduces the custom services -->
+    <script src="js/services.js"></script>
+
+
 
     <!-- This script introduces the controller and is being developed by the application developer -->
 
@@ -51,41 +55,81 @@
 
         <!--<h1>Costas Zarifis Maps Directive</h1>-->
         <!--<div class="google-map" mymap="" latitude="43.074688" longitude="-89.384294"></div>-->
+        <section2>
+            <div id="one">
 
-        <div >
-            <cz-map latitude="32.881857" longitude="-117.233530" zoom="1" >
-
-                <!--<mymarker  latitude="34.881857" longitude="-119.233530"></mymarker>-->
-                <!--<mymarker  latitude="33.881857" longitude="-119.233530"></mymarker>-->
-                <!--<mymarker  latitude="32.881857" longitude="-118.233530"></mymarker>-->
-
-                <!--<cz-marker ng-repeat="ma in randomMarkers" latitude="ma.coords.latitude" longitude="ma.coords.longitude"></cz-marker>-->
-
-                <cz-markers markers="randomMarkers"></cz-markers>
-
-
-            </cz-map>
-        </div>
-
-        <div>
-            <ion-scroll direction="xy" style="width: 100%; height: 500px">
                 <ion-list>
+                    <ion-item>
 
-                    <ion-item ng-repeat=" ma in randomMarkers" >
 
-                        <input type="image" name="image" src="img/delete.png" width="30" height="30" ng-click="deleteMarker(ma)">
+                        Marker ID:
+                        <textarea name="comment" ng-model="model.keyID" ng-change="pushEditable(model.keyID)">
+                        </textarea>
+                    </ion-item>
+                    <ion-item>
+                        <!--<textarea name="comment" ng-model="isChecked" ">-->
+                        <!--</textarea>-->
+                        <ion-checkbox ng-model="model.hasChecked" ng-change="pushNotificationChange(model.keyID)">Show/Hide
+                            Marker
+                        </ion-checkbox>
 
-                            <span ng-click="clickedOnMarker(ma)">
-                             {{ma}}
+                    </ion-item>
 
-                            </span>
+                    <ion-item>
+                        Lat: <textarea name="comment" ng-model="model.currLat" ng-change="changeLat()">
+                    </textarea>
+                    </ion-item>
+                    <ion-item>
+                        Long: <textarea name="comment" ng-model="model.currLong" ng-change="changeLong(model.keyID)">
+                    </textarea>
+                    </ion-item>
 
-                        <br/>
+                    <ion-item>
+                        <input type="image"  name="image" src="img/add.png" width="30" height="30"
+                               ng-click="addRandomMarker()" > <span ng-click="addRandomMarker()">Add Random Marker</span>
 
                     </ion-item>
                 </ion-list>
-            </ion-scroll>
-        </div>
+            </div>
+
+            <div id="two">
+                <cz-map latitude="32.881857" longitude="-117.233530" zoom="1" >
+
+                    <!--<mymarker  latitude="34.881857" longitude="-119.233530"></mymarker>-->
+                    <!--<mymarker  latitude="33.881857" longitude="-119.233530"></mymarker>-->
+                    <!--<mymarker  latitude="32.881857" longitude="-118.233530"></mymarker>-->
+
+                    <!--<cz-marker ng-repeat="ma in randomMarkers" latitude="ma.coords.latitude" longitude="ma.coords.longitude"></cz-marker>-->
+
+                    <cz-linkmarkers markers="randomMarkers"></cz-linkmarkers>
+
+
+                </cz-map>
+            <!--</div>-->
+
+                <div>
+                    <ion-scroll direction="xy" style="width: 100%; height: 500px">
+                        <ion-list>
+
+                            <ion-item ng-repeat=" ma in randomMarkers" >
+
+                                <input type="image" name="image" src="img/delete.png" width="30" height="30" ng-click="deleteMarker(ma)">
+
+                                    <span ng-click="clickedOnMarker(ma)">
+                                     {{ma}}
+
+                                    </span>
+
+                                <br/>
+
+                            </ion-item>
+                        </ion-list>
+                    </ion-scroll>
+                </div>
+            </div>
+
+        </section2>
+
 
     </ion-content>
 </ion-pane>

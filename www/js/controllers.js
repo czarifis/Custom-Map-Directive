@@ -4,6 +4,48 @@
 
 angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
+    $scope.deleteMarker = function(marker){
+        console.log('we should delete marker:',marker);
+        var i = $scope.randomMarkers.indexOf(marker);
+        $scope.randomMarkers.splice(i, 1);
+    };
+
+    $scope.addRandomMarker = function(){
+        console.log('add random marker');
+
+        console.log($scope.randomMarkers[$scope.randomMarkers.length-1].idKey);
+        var rmark = createRandomMarker($scope.randomMarkers.length);
+        $scope.randomMarkers.push(rmark);
+
+    };
+
+    $scope.model = {hasChecked:true, keyID: undefined, currLat: 0, currLong: 0};
+
+    $scope.clickedOnMarker = function(selMarker){
+        console.log('clicked on marker ',selMarker);
+        $scope.model.hasChecked = selMarker.checked;
+        $scope.model.keyID = selMarker.idKey;
+        $scope.isChecked = selMarker.checked;
+        console.log('isChecked variable:',$scope.isChecked);
+
+
+        $scope.model.currLat = selMarker.coords.latitude;
+        $scope.model.currLong = selMarker.coords.longitude;
+    };
+
+
+    $scope.changeLat = function(){
+        var item = $scope.randomMarkers[$scope.model.keyID];
+        item.coords.latitude = $scope.model.currLat;
+        console.log('item:',item);
+    };
+
+    $scope.changeLong = function(id){
+        var item = $scope.randomMarkers[id];
+        item.coords.longitude = $scope.model.currLong;
+        console.log('item:',item);
+    };
+
 
 
     var createRandomMarker = function (i, idKey) {
