@@ -123,86 +123,10 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
             console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
             console.log('got this from scope:',scope.markerz);
 
-//            scope.$watchCollection('markerz',function( newValue, oldValue ) { //will execute after random markers are created
-//
-//                console.log('watchCollection');
-//                console.log('map:', map);
-//
-//                if(allMarkers==0) {
-//                    // Then this is the initialization stage
-//                    for (i = 0; i < newValue.length; i++) {
-//                        var mapOptions,
-//                            latitude = newValue[i].coords.latitude,
-//                            longitude = newValue[i].coords.longitude;
-//                        latitude = parseFloat(latitude);
-//                        longitude = parseFloat(longitude);
-//
-//                        console.log('adding marker')
-//                        var marker = new google.maps.Marker({
-//                            position: new google.maps.LatLng(latitude, longitude),
-//                            map: map,
-//                            title: 'Hello World!'
-//                        });
-//                        allMarkers.push(marker);
-//
-//
-//                    }
-//                }
-//                else{
-//                    // We need to figure out if the user added or removed a marker
-//                    if(newValue.length>oldValue.length){
-//                        console.log('The user added a marker:');
-//                        var addedMarker = newValue.diff(oldValue)[0]
-//                        console.log(addedMarker);
-//                        var mapOptions,
-//                            latitude = addedMarker.coords.latitude,
-//                            longitude = addedMarker.coords.longitude;
-//                        latitude = parseFloat(latitude);
-//                        longitude = parseFloat(longitude);
-//                        console.log('adding new marker')
-//                        var upmarker = new google.maps.Marker({
-//                            position: new google.maps.LatLng(latitude, longitude),
-//                            map: map,
-//                            title: 'Hello World!'
-//                        });
-//                        allMarkers.push(upmarker);
-//
-//
-//
-//
-//                    }else{
-//                        console.log('The user removed a marker');
-//                        var delMarkerModel = oldValue.diff(newValue)[0];
-//                        console.log('allMarkers',allMarkers);
-//                        console.log('delMarkerModel',delMarkerModel);
-//                        console.log('allMarkersModel',allMarkersModel);
-//                        for(kk=0; kk<allMarkersModel.length;kk++) {
-////                                    console.log('allMarkersModel[kk].idKey',allMarkersModel[kk].idKey);
-//                            if(allMarkersModel[kk].idKey == delMarkerModel.idKey){
-//                                // found the marker delete it from the map
-//                                console.log('GOT IT');
-//                                console.log('allMarkers[kk]',allMarkers[kk]);
-//                                allMarkers[kk].setMap(null);
-//                                allMarkers.splice(kk, 1);
-//
-//                            }
-//                        }
-//                    }
-//
-//                }
-//                // store the current array at the allMarkersModel variable
-//                allMarkersModel=newValue.slice(0);
-//            });
+            scope.$watchCollection('markerz',function( newValue, oldValue ) { //will execute after random markers are created
 
-
-
-
-
-
-
-            scope.$watch('markerz',function( newValue, oldValue ) { //will execute after random markers are created
-
-                console.log('deep watch');
+                console.log('watchCollection');
+                console.log('scope:',scope);
                 console.log('map:', map);
 
                 if(allMarkers==0) {
@@ -222,8 +146,37 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                         });
                         allMarkers.push(marker);
 
+                        scope.$watch('markerz['+i+'].coords', function (newValue1, oldValue1 ) {
+                            console.log('Inner Watch!');
+                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
+
+
+                            for(avar = 0; avar<allMarkersModel.length;avar++) {
+//                                console.log(allMarkersModel[avar].coords,newValue1)
+                                if (angular.equals(allMarkersModel[avar].coords, newValue1)) {
+//                                    console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
+//                                    console.log('allMarkers[avar]',allMarkers[avar]);
+//
+                                    var lats = newValue[avar].coords.latitude,
+                                        longs = newValue[avar].coords.longitude;
+                                    lats = parseFloat(lats);
+                                    longs = parseFloat(longs);
+                                    var position = new google.maps.LatLng(lats, longs)
+
+
+                                    allMarkers[avar].setPosition(position);
+                                    console.log('found changed element');
+                                }
+                            }
+                        },true);
 
                     }
+
+                    console.log('NOT!!! Inner Watch!');
+
+                    allMarkersModel=newValue.slice(0);
+
+
                 }
                 else{
                     // We need to figure out if the user added, removed or updated a marker
@@ -245,6 +198,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                             title: 'Hello World!'
                         });
                         allMarkers.push(upmarker);
+                        allMarkersModel=newValue.slice(0);
 
 
 
@@ -266,6 +220,8 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 
                             }
                         }
+                        allMarkersModel=newValue.slice(0);
+
                     }
                     else if(newValue.length==oldValue.length) {
 
@@ -295,16 +251,138 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 
                             }
                         }
+                        allMarkersModel=newValue.slice(0);
+
 
 
                     }
 
                 }
                 // store the current array at the allMarkersModel variable
-                allMarkersModel=newValue.slice(0);
 
                 console.log('--------------------------------------------------');
-            },true);
+            });
+
+
+
+
+
+
+
+
+//            scope.$watch('markerz',function( newValue, oldValue ) { //will execute after random markers are created
+//
+//                console.log('scope:',scope);
+//                console.log('deep watch');
+//                console.log('map:', map);
+//
+//                if(allMarkers==0) {
+//                    // Then this is the initialization stage
+//                    for (i = 0; i < newValue.length; i++) {
+//                        var mapOptions,
+//                            latitude = newValue[i].coords.latitude,
+//                            longitude = newValue[i].coords.longitude;
+//                        latitude = parseFloat(latitude);
+//                        longitude = parseFloat(longitude);
+//
+//                        console.log('adding marker')
+//                        var marker = new google.maps.Marker({
+//                            position: new google.maps.LatLng(latitude, longitude),
+//                            map: map,
+//                            title: 'Hello World!'
+//                        });
+//                        allMarkers.push(marker);
+//
+//                        scope.$watch('markerz['+i+'].coords.latitude', function (newValue1, oldValue1 ) {
+//                            console.log('Inner Watch!');
+//                            console.log('oldValue:',oldValue1,'newValue',newValue1);
+//                        },true);
+//
+//                    }
+//
+//
+//
+//                }
+//                else{
+//                    // We need to figure out if the user added, removed or updated a marker
+//                    if(newValue.length>oldValue.length){
+//
+//                        console.log(newValue,oldValue);
+//                        console.log('The user added a marker:');
+//                        var addedMarker = newValue[newValue.length-1];
+//                        console.log(addedMarker);
+//
+//                        var lats = addedMarker.coords.latitude,
+//                            longs = addedMarker.coords.longitude;
+//                        lats = parseFloat(lats);
+//                        longs = parseFloat(longs);
+//                        console.log('adding new marker')
+//                        var upmarker = new google.maps.Marker({
+//                            position: new google.maps.LatLng(lats, longs),
+//                            map: map,
+//                            title: 'Hello World!'
+//                        });
+//                        allMarkers.push(upmarker);
+//
+//
+//
+//
+//                    }else if(newValue.length<oldValue.length){
+//                        console.log('The user removed a marker');
+//                        var delMarkerModel = oldValue.diff(newValue)[0];
+//                        console.log('allMarkers',allMarkers);
+//                        console.log('delMarkerModel',delMarkerModel);
+//                        console.log('allMarkersModel',allMarkersModel);
+//                        for(kk=0; kk<allMarkersModel.length;kk++) {
+////                                    console.log('allMarkersModel[kk].idKey',allMarkersModel[kk].idKey);
+//                            if(allMarkersModel[kk].idKey == delMarkerModel.idKey){
+//                                // found the marker delete it from the map
+//                                console.log('GOT IT');
+//                                console.log('allMarkers[kk]',allMarkers[kk]);
+//                                allMarkers[kk].setMap(null);
+//                                allMarkers.splice(kk, 1);
+//
+//                            }
+//                        }
+//                    }
+//                    else if(newValue.length==oldValue.length) {
+//
+//                        console.log('The user updated a marker');
+//                        var updatedMarker = oldValue.diff(newValue)[0];
+//                        console.log(updatedMarker);
+//
+//                        console.log(diffArray(newValue,oldValue));
+//
+//                        for(var avar = 0; avar<newValue.length;avar++){
+//                            if(!angular.equals(newValue[avar].coords, oldValue[avar].coords)){
+//                                console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
+//                                console.log('allMarkers[avar]',allMarkers[avar]);
+//
+//                                var lats = newValue[avar].coords.latitude,
+//                                    longs = newValue[avar].coords.longitude;
+//                                lats = parseFloat(lats);
+//                                longs = parseFloat(longs);
+//                                var position = new google.maps.LatLng(lats, longs)
+//
+//
+//                                allMarkers[avar].setPosition(position);
+//                            }
+//                            if(!angular.equals(newValue[avar].checked, oldValue[avar].checked)){
+//                                console.log('went from:',newValue[avar].checked,'to:',oldValue[avar].checked);
+//                                allMarkers[avar].setVisible(newValue[avar].checked);
+//
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                }
+//                // store the current array at the allMarkersModel variable
+//                allMarkersModel=newValue.slice(0);
+//
+//                console.log('--------------------------------------------------');
+//            },true);
 
 
 //                    scope.$watch('markerz',function( newValue, oldValue ) {

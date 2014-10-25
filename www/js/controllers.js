@@ -56,6 +56,40 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         console.log('item:',item);
     };
 
+    $scope.doRandom = function(){
+        for (var i=0;i<10;i++){
+            console.log('add random marker within doRandom');
+
+            console.log($scope.randomMarkers[$scope.randomMarkers.length-1].idKey);
+            var rmark = createRandomMarker(new Date().getUTCMilliseconds());
+            $scope.randomMarkers.push(rmark);
+            $scope.$apply();
+        }
+
+        var variab = {};
+        for(var j=0;j<5;j++){
+//            console.log($scope.randomMarkers[i]);
+            variab = $scope.randomMarkers[j];
+            console.log(variab);
+            console.log('was variab.checked:',variab.checked);
+            console.log(variab);
+            //variab.checked = $scope.isChecked;
+            if (variab.checked==true){
+//                dummyVar = false;
+//                $scope.model.hasChecked = false;
+                variab.checked = false;
+            }
+            else{
+//                dummyVar = true;
+//                $scope.model.hasChecked = true;
+
+                variab.checked = true;
+            }
+            $scope.$apply();
+//            console.log('is isChecked:',dummyVar);
+            console.log('variab now is:',variab);
+        }
+    };
 
     $scope.pushshowhide = function(key) {
 
@@ -65,7 +99,6 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         for(var i=0;i<$scope.randomMarkers.length;i++){
 //            console.log($scope.randomMarkers[i]);
             if($scope.randomMarkers[i].idKey==$scope.model.keyID){
-                console.log('waat');
                 variab = $scope.randomMarkers[i];
                 console.log(variab);
             }
