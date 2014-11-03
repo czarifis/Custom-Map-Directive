@@ -4,6 +4,9 @@
 
 angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
+    var MARKERS_NO = 800;
+    var SOON_TO_BE_MODIFIED_PERCENTAGE = 1;
+
     $scope.deleteMarker = function(marker){
         console.log('we should delete marker:',marker);
         var i = $scope.randomMarkers.indexOf(marker);
@@ -20,6 +23,14 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
     };
 
     $scope.model = {hasChecked:true, keyID: undefined, currLat: 0, currLong: 0};
+
+    $scope.modifyMarkers = function(){
+        for(var marki=0;marki<$scope.randomMarkersAboutToChange.length;marki++){
+//            console.log('about to get modified:',$scope.randomMarkersAboutToChange[marki]);
+            $scope.randomMarkersAboutToChange[marki].coords.latitude = $scope.randomMarkersAboutToChange[marki].coords.latitude+5;
+            $scope.randomMarkersAboutToChange[marki].coords.longitude = $scope.randomMarkersAboutToChange[marki].coords.longitude+5;
+        }
+    };
 
     $scope.clickedOnMarker = function(selMarker){
         console.log('clicked on marker ',selMarker);
@@ -180,6 +191,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
     };
 
     $scope.randomMarkers = [];
+    $scope.randomMarkersAboutToChange = [];
 // Get the bounds from the map once it's loaded
     $scope.$watch(function () {
         return $scope.map;
@@ -188,10 +200,19 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
         // Only need to regenerate once
 //        if (!ov.southwest && nv.southwest) {
             var markers = [];
+            var markersAboutToChange = [];
 //                console.log($scope.map.bounds);
-            for (var i = 0; i < 20; i++) {
+            var modif = MARKERS_NO*SOON_TO_BE_MODIFIED_PERCENTAGE;
+            for (var i = 0; i < MARKERS_NO; i++) {
+
+
 
                 $scope.mm = createRandomMarker(i);
+
+                if(i<modif){
+                    markersAboutToChange.push($scope.mm);
+
+                }
                 markers.push($scope.mm);
 
 //            }
@@ -199,6 +220,7 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
 
             $scope.randomMarkers = markers;
+            $scope.randomMarkersAboutToChange = markersAboutToChange;
 //                markers.push({events: {
 //                    dragend: function (marker) {
 //

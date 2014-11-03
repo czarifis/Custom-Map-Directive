@@ -147,8 +147,8 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                         allMarkers.push(marker);
 
                         scope.$watch('markerz['+i+'].coords', function (newValue1, oldValue1 ) {
-                            console.log('Inner Watch!');
-                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
+//                            console.log('Inner Watch!');
+//                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
 
 
                             for(avar = 0; avar<allMarkersModel.length;avar++) {
@@ -165,7 +165,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 
 
                                     allMarkers[avar].setPosition(position);
-                                    console.log('found changed element');
+//                                    console.log('found changed element');
                                 }
                             }
                         },true);
@@ -191,7 +191,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                             longs = addedMarker.coords.longitude;
                         lats = parseFloat(lats);
                         longs = parseFloat(longs);
-                        console.log('adding new marker')
+                        console.log('adding new marker');
                         var upmarker = new google.maps.Marker({
                             position: new google.maps.LatLng(lats, longs),
                             map: map,

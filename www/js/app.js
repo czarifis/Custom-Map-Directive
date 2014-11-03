@@ -6,7 +6,17 @@
 angular.module('starter', ['ionic','myMapDirectiveApp','controllers', 'services'])
 
 
-    .run(function($ionicPlatform) {
+    .run(function($ionicPlatform,$rootScope) {
+
+
+        var $oldDigest = $rootScope.$digest;
+        var $newDigest = function() {
+            console.time("$digest");
+            $oldDigest.apply($rootScope);
+            console.timeEnd("$digest");
+        };
+        $rootScope.$digest = $newDigest;
+
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
