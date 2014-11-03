@@ -38,7 +38,8 @@ mapApp.directive('czMap', function () {
             var marker = new google.maps.Marker({
                 position:  new google.maps.LatLng(latitude,longitude),
                 map: map,
-                title: 'Hello World!'
+                title: 'Hello World!',
+                icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'
             });
 
 
@@ -84,6 +85,7 @@ mapApp.directive('czMarker', function () {
                     var marker = new google.maps.Marker({
                         position: new google.maps.LatLng(latitude, longitude),
                         map: map,
+                        icon: iconBase  ,
                         title: 'Hello World!'
                     });
                 }
@@ -128,6 +130,8 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                 console.log('watchCollection');
                 console.log('scope:',scope);
                 console.log('map:', map);
+                var iconBase = '../img/truck';
+
 
                 if(allMarkers==0) {
                     // Then this is the initialization stage
@@ -142,6 +146,7 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(latitude, longitude),
                             map: map,
+                            icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'  ,
                             title: 'Hello World!'
                         });
                         allMarkers.push(marker);
@@ -191,10 +196,16 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                             longs = addedMarker.coords.longitude;
                         lats = parseFloat(lats);
                         longs = parseFloat(longs);
+
+
+
+
+
                         console.log('adding new marker');
                         var upmarker = new google.maps.Marker({
                             position: new google.maps.LatLng(lats, longs),
                             map: map,
+                            icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'  ,
                             title: 'Hello World!'
                         });
                         allMarkers.push(upmarker);
@@ -423,12 +434,14 @@ mapApp.directive('czLinkmarkersfromfactory', ['MyMarkers', function (MyMarkers) 
 
                 latitude = parseFloat(latitude);
                 longitude = parseFloat(longitude);
+                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 
                 var marker = new google.maps.Marker({
                     position: new google.maps.LatLng(latitude, longitude),
                     map: map,
+                    icon: iconBase  ,
                     title: 'Hello World!'
-                })};
+                })}
         }
     }}]);
 
