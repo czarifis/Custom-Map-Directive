@@ -1,11 +1,11 @@
 /**
- * Created by xhrdx on 10/16/14.
+ * Created by Costas Zarifis on 10/16/14.
  */
 
 angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
 
     var MARKERS_NO = 800;
-    var SOON_TO_BE_MODIFIED_PERCENTAGE = 1;
+    var SOON_TO_BE_MODIFIED_PERCENTAGE = 0.5;
 
     $scope.deleteMarker = function(marker){
         console.log('we should delete marker:',marker);

@@ -1,5 +1,5 @@
 /**
- * Created by xhrdx on 10/16/14.
+ * Created by Costas Zarifis on 10/16/14.
  */
 var mapApp = angular.module('myMapDirectiveApp', ['services']);
 
