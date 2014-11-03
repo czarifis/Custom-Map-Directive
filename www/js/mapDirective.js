@@ -39,7 +39,7 @@ mapApp.directive('czMap', function () {
                 position:  new google.maps.LatLng(latitude,longitude),
                 map: map,
                 title: 'Hello World!',
-                icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'
+//                icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'
             });
 
 
@@ -130,19 +130,19 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                 console.log('watchCollection');
                 console.log('scope:',scope);
                 console.log('map:', map);
-                var iconBase = '../img/truck';
+                var iconBase = 'img/truck';
 
 
                 if(allMarkers==0) {
                     // Then this is the initialization stage
-                    for (i = 0; i < newValue.length; i++) {
+                    for (var i = 0; i < newValue.length; i++) {
                         var mapOptions,
                             latitude = newValue[i].coords.latitude,
                             longitude = newValue[i].coords.longitude;
                         latitude = parseFloat(latitude);
                         longitude = parseFloat(longitude);
 
-                        console.log('adding marker')
+                        console.log('adding marker');
                         var marker = new google.maps.Marker({
                             position: new google.maps.LatLng(latitude, longitude),
                             map: map,
@@ -153,26 +153,26 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 
                         scope.$watch('markerz['+i+'].coords', function (newValue1, oldValue1 ) {
 //                            console.log('Inner Watch!');
-//                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
-
-
-                            for(avar = 0; avar<allMarkersModel.length;avar++) {
-//                                console.log(allMarkersModel[avar].coords,newValue1)
-                                if (angular.equals(allMarkersModel[avar].coords, newValue1)) {
-//                                    console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
-//                                    console.log('allMarkers[avar]',allMarkers[avar]);
+////                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
 //
-                                    var lats = newValue[avar].coords.latitude,
-                                        longs = newValue[avar].coords.longitude;
-                                    lats = parseFloat(lats);
-                                    longs = parseFloat(longs);
-                                    var position = new google.maps.LatLng(lats, longs)
-
-
-                                    allMarkers[avar].setPosition(position);
-//                                    console.log('found changed element');
-                                }
-                            }
+//
+//                            for(avar = 0; avar<allMarkersModel.length;avar++) {
+////                                console.log(allMarkersModel[avar].coords,newValue1)
+//                                if (angular.equals(allMarkersModel[avar].coords, newValue1)) {
+////                                    console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
+////                                    console.log('allMarkers[avar]',allMarkers[avar]);
+////
+//                                    var lats = newValue[avar].coords.latitude,
+//                                        longs = newValue[avar].coords.longitude;
+//                                    lats = parseFloat(lats);
+//                                    longs = parseFloat(longs);
+//                                    var position = new google.maps.LatLng(lats, longs)
+//
+//
+//                                    allMarkers[avar].setPosition(position);
+////                                    console.log('found changed element');
+//                                }
+//                            }
                         },true);
 
                     }
@@ -409,39 +409,45 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 //        }
     }}]);
 
+
+
+
+
+
+
 // This directive doesn't need to declare any watches somehow the markers array is there before this
 // code cicks in. The only difference from the czLinkmarkers is that the list with the markers comes
 // from a factory
-mapApp.directive('czLinkmarkersfromfactory', ['MyMarkers', function (MyMarkers) {
-    return{
-        restrict:'AE',
-        terminal :true, // this module will have the lowest priority. (It will be executed last)
-        scope:{
-            markers : '=markers'
-        },
-
-        link: function link(scope, iterElement, attr) {
-            console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
-
-            console.log('got this from Service:',MyMarkers.list);
-            markerz = MyMarkers.list;
-            for ( i =0 ; i<markerz.length;i++){
-
-
-                var mapOptions,
-                    latitude = markerz[i].coords.latitude,
-                    longitude = markerz[i].coords.longitude;
-
-                latitude = parseFloat(latitude);
-                longitude = parseFloat(longitude);
-                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(latitude, longitude),
-                    map: map,
-                    icon: iconBase  ,
-                    title: 'Hello World!'
-                })}
-        }
-    }}]);
-
+//mapApp.directive('czLinkmarkersfromfactory', ['MyMarkers', function (MyMarkers) {
+//    return{
+//        restrict:'AE',
+//        terminal :true, // this module will have the lowest priority. (It will be executed last)
+//        scope:{
+//            markers : '=markers'
+//        },
+//
+//        link: function link(scope, iterElement, attr) {
+//            console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
+//
+//            console.log('got this from Service:',MyMarkers.list);
+//            markerz = MyMarkers.list;
+//            for ( i =0 ; i<markerz.length;i++){
+//
+//
+//                var mapOptions,
+//                    latitude = markerz[i].coords.latitude,
+//                    longitude = markerz[i].coords.longitude;
+//
+//                latitude = parseFloat(latitude);
+//                longitude = parseFloat(longitude);
+//                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+//
+//                var marker = new google.maps.Marker({
+//                    position: new google.maps.LatLng(latitude, longitude),
+//                    map: map,
+//                    icon: iconBase  ,
+//                    title: 'Hello World!'
+//                })}
+//        }
+//    }}]);
+//
