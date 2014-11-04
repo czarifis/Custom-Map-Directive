@@ -108,7 +108,7 @@
             </div>
 
             <div id="two">
-                <cz-map latitude="32.881857" longitude="-117.233530" zoom="1" >
+                <cz-map latitude="32.881857" longitude="-117.233530" zoom="11" >
 
                     <!--<mymarker  latitude="34.881857" longitude="-119.233530"></mymarker>-->
                     <!--<mymarker  latitude="33.881857" longitude="-119.233530"></mymarker>-->
@@ -116,7 +116,9 @@
 
                     <!--<cz-marker ng-repeat="ma in randomMarkers" latitude="ma.coords.latitude" longitude="ma.coords.longitude"></cz-marker>-->
 
-                    <cz-linkmarkers markers="randomMarkers"></cz-linkmarkers>
+                    <!--<cz-linkmarkers markers="randomMarkers"></cz-linkmarkers>-->
+
+                    <cz-polylines polylines="lineStrings"></cz-polylines>
 
 
                 </cz-map>

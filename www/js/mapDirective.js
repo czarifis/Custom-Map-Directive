@@ -94,6 +94,89 @@ mapApp.directive('czMarker', function () {
     }});
 
 
+mapApp.directive('czPolylines', function(){
+
+    var allPolylines = [];
+
+    return{
+        restrict:'AE',
+        terminal :true, // this module will have the lowest priority. (It will be executed last)
+        scope:{
+            polylines : '=polylines'
+        },
+
+        link: function link(scope, iterElement, attr, ctrl) {
+
+            console.log('scope.polylines',scope.polylines);
+
+            /**
+             * will run after the polylines get initialized and after each modification on the list (itself)
+             * that holds the polylines
+             *
+             */
+            scope.$watchCollection('polylines',function( newValue, oldValue ) {
+
+
+                for(var j =0 ; j< scope.polylines.length;j++) {
+
+                    var pLine = scope.polylines[j].lineString;
+                    var listOfpositions = [];
+                    for (var i = 0; i < pLine.length; i++) {
+                        console.log(pLine[i][1], pLine[i][0]);
+                        listOfpositions.push(new google.maps.LatLng(pLine[i][1], pLine[i][0]));
+                    }
+                    console.log(listOfpositions);
+
+                    var googlePolyline = new google.maps.Polyline({
+                        path: listOfpositions,
+                        geodesic: true,
+                        strokeColor: '#000000',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 1
+                    });
+
+                    googlePolyline.setMap(map);
+
+                }
+
+
+                console.log('googlePolyline',googlePolyline);
+                var flightPlanCoordinates = [
+                    new google.maps.LatLng(37.772323, -122.214897),
+                    new google.maps.LatLng(21.291982, -157.821856),
+                    new google.maps.LatLng(-18.142599, 178.431),
+                    new google.maps.LatLng(-27.46758, 153.027892)
+                ];
+
+
+//                var flightPath = new google.maps.Polyline({
+//                    path: flightPlanCoordinates,
+//                    geodesic: true,
+//                    strokeColor: '#FF0000',
+//                    strokeOpacity: 1.0,
+//                    strokeWeight: 2
+//                });
+//
+//                flightPath.setMap(map);
+//                console.log('flightPath',flightPath);
+
+
+            },true);
+
+
+
+
+
+
+
+
+
+
+        }
+    }
+
+});
+
 mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
     var allMarkers = [];
     var allMarkersModel = [];
