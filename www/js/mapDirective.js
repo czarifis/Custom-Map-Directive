@@ -38,7 +38,7 @@ mapApp.directive('czMap', function () {
             var marker = new google.maps.Marker({
                 position:  new google.maps.LatLng(latitude,longitude),
                 map: map,
-                title: 'Hello World!',
+                title: 'Hello World!'
 //                icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'
             });
 
@@ -117,61 +117,71 @@ mapApp.directive('czPolylines', function(){
             scope.$watchCollection('polylines',function( newValue, oldValue ) {
 
 
-                for(var j =0 ; j< scope.polylines.length;j++) {
+                if(allPolylines.length==0) {
+                    // Polyline initialization
+                    console.log('initialization');
+                    for (var j = 0; j < newValue.length; j++) {
 
-                    var pLine = scope.polylines[j].lineString;
-                    var listOfpositions = [];
-                    for (var i = 0; i < pLine.length; i++) {
-                        console.log(pLine[i][1], pLine[i][0]);
-                        listOfpositions.push(new google.maps.LatLng(pLine[i][1], pLine[i][0]));
+
+                        scope.$watch('polylines['+j+']', function (newValue1, oldValue1 ) {
+
+                            // add a watch on each polyline
+
+
+//                            if(newValue1 === oldValue1){
+//                                return
+//                            }
+//                            var listOfpositions = [];
+////                            console.log('this polyline changed', newValue1);
+////                            console.log('is this valid:', newValue1.idkey);
+////                            console.log('newValue1', newValue1, 'oldValue1', oldValue1);
+//
+//                            // generating a list of LatLngs that form the polylines
+//                            for (var i = 0; i < newValue1.lineString.length; i++) {
+//                                //                                console.log(newValue1.lineString[i][1],newValue1.lineString[i][0]);
+//                                listOfpositions.push(new google.maps.LatLng(newValue1.lineString[i][1], newValue1.lineString[i][0]));
+//                            }
+//
+//                            var googlePolyline = new google.maps.Polyline({
+//                                path: listOfpositions,
+//                                geodesic: true,
+//                                strokeColor: '#00000F',
+//                                strokeOpacity: 1.0,
+//                                strokeWeight: 5
+//                            });
+//
+//                            allPolylines[newValue1.idkey] =googlePolyline;
+//                            allPolylines[newValue1.idkey].setMap(map);
+                        },true);
+//
+
+                        var pLine = scope.polylines[j].lineString;
+                        var listOfpositions = [];
+                        for (var i = 0; i < pLine.length; i++) {
+//                            console.log(pLine[i][1], pLine[i][0]);
+                            listOfpositions.push(new google.maps.LatLng(pLine[i][1], pLine[i][0]));
+                        }
+//                        console.log(listOfpositions);
+
+                        var googlePolyline = new google.maps.Polyline({
+                            path: listOfpositions,
+                            geodesic: true,
+                            strokeColor: '#000000',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 1
+                        });
+
+//                        googlePolyline.setMap(map);
+
+                        allPolylines[scope.polylines[j].idkey] = googlePolyline;
+                        allPolylines[scope.polylines[j].idkey].setMap(map);
+
                     }
-                    console.log(listOfpositions);
-
-                    var googlePolyline = new google.maps.Polyline({
-                        path: listOfpositions,
-                        geodesic: true,
-                        strokeColor: '#000000',
-                        strokeOpacity: 1.0,
-                        strokeWeight: 1
-                    });
-
-                    googlePolyline.setMap(map);
-
                 }
 
+//                    scope.$watch('markerz['+i+'].coords', function (newValue1, oldValue1 ) {
 
-                console.log('googlePolyline',googlePolyline);
-                var flightPlanCoordinates = [
-                    new google.maps.LatLng(37.772323, -122.214897),
-                    new google.maps.LatLng(21.291982, -157.821856),
-                    new google.maps.LatLng(-18.142599, 178.431),
-                    new google.maps.LatLng(-27.46758, 153.027892)
-                ];
-
-
-//                var flightPath = new google.maps.Polyline({
-//                    path: flightPlanCoordinates,
-//                    geodesic: true,
-//                    strokeColor: '#FF0000',
-//                    strokeOpacity: 1.0,
-//                    strokeWeight: 2
-//                });
-//
-//                flightPath.setMap(map);
-//                console.log('flightPath',flightPath);
-
-
-            },true);
-
-
-
-
-
-
-
-
-
-
+            });
         }
     }
 
