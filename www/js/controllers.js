@@ -45,6 +45,22 @@ angular.module('controllers',[]).controller('MapCtrl', function ($scope) {
     };
 
 
+    /**
+     * Sample function to test if we can pass function results to the directive
+     */
+    var counter = 0;
+    $scope.myFunc = function(){
+//        counter = counter+1;
+        return counter*2;
+    };
+
+
+
+    $scope.otherFunc = function(){
+        counter++;
+
+    };
+
     $scope.changeLat = function(){
         var item = {};
         for(var i=0;i<$scope.randomMarkers.length;i++){

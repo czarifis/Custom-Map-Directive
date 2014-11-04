@@ -59,6 +59,7 @@ mapApp.directive('czMarker', function () {
             latitude : '=',
             longitude : '='
 
+
         },
         // compile and template function differences:
         // http://stackoverflow.com/questions/20941568/what-are-the-benefits-of-a-directive-template-function-in-angularjs
@@ -118,12 +119,18 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
 //        priority: 1, //<-- PRIORITY
         terminal :true, // this module will have the lowest priority. (It will be executed last)
         scope:{
-            markerz : '=markers'
+            markerz : '=markers',
+            func : '=func'
         },
 
         link: function link(scope, iterElement, attr, ctrl) {
             console.log('printing inside marker... ', 'elem: ', iterElement, 'attr: ', attr, 'scope', scope);
             console.log('got this from scope:',scope.markerz);
+
+            scope.$watch('func',function( newValue, oldValue ) {
+                console.log('func changed! new value:',newValue,'old Value:',oldValue, scope.func);
+
+            });
 
             scope.$watchCollection('markerz',function( newValue, oldValue ) { //will execute after random markers are created
 

@@ -100,23 +100,21 @@
                     </ion-item>
 
                     <ion-item>
-                        <button class="button" ng-click="modifyMarkers()">
+                        <button class="button" ng-click="otherFunc()">
                             Click to modify some markers
                         </button>
                     </ion-item>
                 </ion-list>
             </div>
 
+
             <div id="two">
+
+                <!--Map module!-->
                 <cz-map latitude="32.881857" longitude="-117.233530" zoom="1" >
 
-                    <!--<mymarker  latitude="34.881857" longitude="-119.233530"></mymarker>-->
-                    <!--<mymarker  latitude="33.881857" longitude="-119.233530"></mymarker>-->
-                    <!--<mymarker  latitude="32.881857" longitude="-118.233530"></mymarker>-->
 
-                    <!--<cz-marker ng-repeat="ma in randomMarkers" latitude="ma.coords.latitude" longitude="ma.coords.longitude"></cz-marker>-->
-
-                    <cz-linkmarkers markers="randomMarkers"></cz-linkmarkers>
+                    <cz-linkmarkers markers="randomMarkers" func="myFunc()"></cz-linkmarkers>
 
 
                 </cz-map>
