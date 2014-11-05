@@ -38,8 +38,11 @@
 
 
 
+
+
     <!-- This script introduces the controller and is being developed by the application developer -->
 
+    <script src="js/controllerspoly.js"></script>
     <script src="js/controllers.js"></script>
 
     <style type="text/css">
@@ -48,7 +51,7 @@
         .google-map{width:100%; height:100%;}
     </style>
 </head>
-<body ng-app="starter" ng-controller="MapCtrl">
+<body ng-app="starter" ng-controller="MapCtrlPoly">
 
 <ion-pane>
     <ion-header-bar class="bar-stable">
@@ -62,6 +65,13 @@
             <div id="one">
 
                 <ion-list>
+
+
+                    <ion-item>
+                        <button class="button" ng-click="modifyRoutes()">
+                            Click to modify some routes
+                        </button>
+                    </ion-item>
                     <ion-item>
 
 
@@ -99,11 +109,7 @@
                         </button>
                     </ion-item>
 
-                    <ion-item>
-                        <button class="button" ng-click="modifyMarkers()">
-                            Click to modify some markers
-                        </button>
-                    </ion-item>
+
                 </ion-list>
             </div>
 
@@ -118,7 +124,7 @@
 
                     <!--<cz-linkmarkers markers="randomMarkers"></cz-linkmarkers>-->
 
-                    <cz-polylines polylines="lineStrings"></cz-polylines>
+                    <cz-polylines polylines="secondaryStrings"></cz-polylines>
 
 
                 </cz-map>
@@ -152,4 +158,18 @@
 </ion-pane>
 
 </body>
+<script>
+    countWatchers = function() {
+        var watchers, elementsWithScope, scope, i, len;
+        watchers = 0;
+        elementsWithScope = document.querySelectorAll('.ng-scope');
+        for (i = 0, len = elementsWithScope.length; i < len; i++) {
+            scope = angular.element(elementsWithScope[i]).scope();
+            if (scope.$$watchers != null) {
+                watchers += scope.$$watchers.length;
+            }
+        }
+        return watchers;
+    };
+</script>
 </html>

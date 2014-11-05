@@ -107,7 +107,7 @@ mapApp.directive('czPolylines', function(){
 
         link: function link(scope, iterElement, attr, ctrl) {
 
-            console.log('scope.polylines',scope.polylines);
+//            console.log('scope.polylines',scope.polylines);
 
             /**
              * will run after the polylines get initialized and after each modification on the list (itself)
@@ -125,33 +125,33 @@ mapApp.directive('czPolylines', function(){
 
                         scope.$watch('polylines['+j+']', function (newValue1, oldValue1 ) {
 
-                            // add a watch on each polyline
+//                           // add a watch on each polyline
+//
+//
+                            if(newValue1 === oldValue1){
+                                return
+                            }
+                            var listOfpositions = [];
+//                            console.log('this polyline changed', newValue1);
+//                            console.log('is this valid:', newValue1.idkey);
+//                            console.log('newValue1', newValue1, 'oldValue1', oldValue1);
 
+                            // generating a list of LatLngs that form the polylines
+                            for (var i = 0; i < newValue1.lineString.length; i++) {
+                                //                                console.log(newValue1.lineString[i][1],newValue1.lineString[i][0]);
+                                listOfpositions.push(new google.maps.LatLng(newValue1.lineString[i][1], newValue1.lineString[i][0]));
+                            }
 
-//                            if(newValue1 === oldValue1){
-//                                return
-//                            }
-//                            var listOfpositions = [];
-////                            console.log('this polyline changed', newValue1);
-////                            console.log('is this valid:', newValue1.idkey);
-////                            console.log('newValue1', newValue1, 'oldValue1', oldValue1);
-//
-//                            // generating a list of LatLngs that form the polylines
-//                            for (var i = 0; i < newValue1.lineString.length; i++) {
-//                                //                                console.log(newValue1.lineString[i][1],newValue1.lineString[i][0]);
-//                                listOfpositions.push(new google.maps.LatLng(newValue1.lineString[i][1], newValue1.lineString[i][0]));
-//                            }
-//
-//                            var googlePolyline = new google.maps.Polyline({
-//                                path: listOfpositions,
-//                                geodesic: true,
-//                                strokeColor: '#00000F',
-//                                strokeOpacity: 1.0,
-//                                strokeWeight: 5
-//                            });
-//
-//                            allPolylines[newValue1.idkey] =googlePolyline;
-//                            allPolylines[newValue1.idkey].setMap(map);
+                            var googlePolyline = new google.maps.Polyline({
+                                path: listOfpositions,
+                                geodesic: true,
+                                strokeColor: '#00000F',
+                                strokeOpacity: 1.0,
+                                strokeWeight: 5
+                            });
+
+                            allPolylines[newValue1.idkey] =googlePolyline;
+                            allPolylines[newValue1.idkey].setMap(map);
                         },true);
 //
 
@@ -242,30 +242,44 @@ mapApp.directive('czLinkmarkers', ['MyMarkers',function (MyMarkers,_) {
                             icon: iconBase+(Math.floor(Math.random() * 3) + 1)+'.png'  ,
                             title: 'Hello World!'
                         });
+
+
+
+//                        marker.info = new google.maps.InfoWindow({
+//                            content: newValue[i].contentString
+//                        });
+//
+//                        google.maps.event.addListener(marker, 'click', function() {
+////                            marker.info.open(map, marker);
+//                            this.info.open(map,this);
+//                        });
+
                         allMarkers.push(marker);
 
-                        scope.$watch('markerz['+i+'].coords', function (newValue1, oldValue1 ) {
+
+
+                        scope.$watch('markerz['+i+']', function (newValue1, oldValue1 ) {
 //                            console.log('Inner Watch!');
-////                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel',allMarkersModel);
+//                            console.log('oldValue:',oldValue1,'newValue',newValue1,'allMarkersModel');
+
+
+                            for(avar = 0; avar<allMarkersModel.length;avar++) {
+//                                console.log(allMarkersModel[avar].coords,newValue1)
+                                if (angular.equals(allMarkersModel[avar], newValue1)) {
+//                                    console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
+//                                    console.log('allMarkers[avar]',allMarkers[avar]);
 //
-//
-//                            for(avar = 0; avar<allMarkersModel.length;avar++) {
-////                                console.log(allMarkersModel[avar].coords,newValue1)
-//                                if (angular.equals(allMarkersModel[avar].coords, newValue1)) {
-////                                    console.log('previous element:',oldValue[avar].coords,'current element:',newValue[avar].coords);
-////                                    console.log('allMarkers[avar]',allMarkers[avar]);
-////
-//                                    var lats = newValue[avar].coords.latitude,
-//                                        longs = newValue[avar].coords.longitude;
-//                                    lats = parseFloat(lats);
-//                                    longs = parseFloat(longs);
-//                                    var position = new google.maps.LatLng(lats, longs)
-//
-//
-//                                    allMarkers[avar].setPosition(position);
-////                                    console.log('found changed element');
-//                                }
-//                            }
+                                    var lats = newValue[avar].coords.latitude,
+                                        longs = newValue[avar].coords.longitude;
+                                    lats = parseFloat(lats);
+                                    longs = parseFloat(longs);
+                                    var position = new google.maps.LatLng(lats, longs);
+
+
+                                    allMarkers[avar].setPosition(position);
+//                                    console.log('found changed element');
+                                }
+                            }
                         },true);
 
                     }

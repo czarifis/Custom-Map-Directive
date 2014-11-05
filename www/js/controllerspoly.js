@@ -5,9 +5,9 @@
 
 angular.module('controllerspoly',[]).controller('MapCtrlPoly', function ($scope) {
 
-    var NUM_OF_POLYLINES = 10;
-    var NUM_OF_LATS_LONGS_PER_POLYLINE = 100;
-    var SOON_TO_BE_MODIFIED_PERCENTAGE = 0.1;
+    var NUM_OF_POLYLINES = 1000;
+    var NUM_OF_LATS_LONGS_PER_POLYLINE = 5;
+    var SOON_TO_BE_MODIFIED_PERCENTAGE = 0.01;
 
     var polylinesAboutToChange=[];
 
@@ -24,6 +24,7 @@ angular.module('controllerspoly',[]).controller('MapCtrlPoly', function ($scope)
             }
 
         }
+//        console.log('print\n',JSON.stringify($scope.secondaryStrings));
 
 
     });
